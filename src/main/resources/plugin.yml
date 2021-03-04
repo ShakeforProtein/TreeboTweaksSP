@@ -1,0 +1,20 @@
+name: TreeboTweaksSP
+version: ${project.version}
+main: me.shakeforprotein.treebotweakssp.TreeboTweaksSP
+api-version: 1.13
+authors: [ShakeforProtein]
+description: Various tweaks for the Spigot side of Treebo Servers
+website: http://forums.treebomc.com
+depend: []
+softdepend: [dynmap, WorldEdit, GriefPrevention, WorldGuard]
+
+commands:
+  vehicleview:
+  makemap:
+    permission: 'treebotweakssp.makemap'
+
+permissions:
+  treebotweaks.makemap:
+    default: OP
+#    permission: treebotackle.admin
+#    description: ''

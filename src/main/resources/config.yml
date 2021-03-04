@@ -1,0 +1,27 @@
+General:
+  ServerName: Unlabeled Server
+  Messages:
+    Badge:
+    Error:
+  Discord:
+    HookID: 0
+    HookToken: 0
+Tweaks:
+  TimedPvpBlockBreak: false
+  TreeTwerking: false
+  MurderCarts: false
+  VehicleViewLockToggle: false
+  EasyStoneInResourceWorld: false
+  DynmapToIngameMap: false
+  BlockWitherSpawnsNearClaimedLand: false
+  BlockPvPNearOwnClaim: false
+  NerfMobDropsWhenNotKilledByPlayer: false
+  PlayerKeepMostItemsIfKilledByPlayer: false
+  AutoFillChangeLog: true
+  DoubleDoors: false
+
+DynmapToInGameMapDetails:
+  World: 'Survival'
+  StartFromX: -16
+  StartFromY: -16
+  Dimensions: 4096
