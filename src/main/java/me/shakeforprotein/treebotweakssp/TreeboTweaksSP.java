@@ -79,15 +79,15 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         getConfig().options().copyDefaults(true);
         getConfig().set("version", this.getDescription().getVersion());
         saveConfig();
-        if(Bukkit.getPluginManager().getPlugin("GriefPrevention").isEnabled()) {
+        if(Bukkit.getPluginManager().getPlugin("GriefPrevention") != null && Bukkit.getPluginManager().getPlugin("GriefPrevention").isEnabled()) {
             this.griefPrevention = GriefPrevention.instance;
-        } else {System.out.println(badge + " Error: Was unable to find plugin - GriefPrevention. Some features may not work as intended");}
-        if(Bukkit.getPluginManager().getPlugin("WorldGuard").isEnabled()) {
+        } else {System.out.println(badge + " Error: Was unable to find plugin or it was disabled - GriefPrevention. Some features may not work as intended");}
+        if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null && Bukkit.getPluginManager().getPlugin("WorldGuard").isEnabled()) {
             this.worldGuard = WorldGuard.getInstance();
-        }  else {System.out.println(badge + " Error: Was unable to find plugin - WorldGuard. Some features may not work as intended");}
-        if (Bukkit.getPluginManager().getPlugin("WorldEdit").isEnabled()) {
+        }  else {System.out.println(badge + " Error: Was unable to find plugin or it was disabled - WorldGuard. Some features may not work as intended");}
+        if (Bukkit.getPluginManager().getPlugin("WorldEdit") != null && Bukkit.getPluginManager().getPlugin("WorldEdit").isEnabled()) {
             this.worldGuardPlugin = WorldGuardPlugin.inst();
-        }  else {System.out.println(badge + " Error: Was unable to find plugin - WorldEdit. Some features may not work as intended");}
+        }  else {System.out.println(badge + " Error: Was unable to find plugin or it was disabled - WorldEdit. Some features may not work as intended");}
         if(getConfig().getString("General.ServerName") != null){
             serverName = getConfig().getString("General.ServerName");
         }
