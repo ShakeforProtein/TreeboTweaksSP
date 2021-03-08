@@ -19,6 +19,7 @@ Tweaks:
   PlayerKeepMostItemsIfKilledByPlayer: false
   AutoFillChangeLog: true
   DoubleDoors: false
+  AllowWaterInNether: false
 
 DynmapToInGameMapDetails:
   World: 'Survival'

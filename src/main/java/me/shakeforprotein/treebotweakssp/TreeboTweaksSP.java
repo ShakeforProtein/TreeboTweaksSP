@@ -14,6 +14,7 @@ import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.CommandMakeMap
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.InternalMapRenderer;
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.MapRenderListener;
 import me.shakeforprotein.treebotweakssp.Tweaks.NerfMobDropsWhenNotKilledByPlayer.NerfDrops;
+import me.shakeforprotein.treebotweakssp.Tweaks.NetherWater.AllowWaterInNether;
 import me.shakeforprotein.treebotweakssp.Tweaks.PlayerKeepItemsIfKilledByPlayer.PlayerKeepItems;
 import me.shakeforprotein.treebotweakssp.Tweaks.StoneToMonsterStone.Listeners.CreatureSpawnListener;
 import me.shakeforprotein.treebotweakssp.Tweaks.StoneToMonsterStone.Listeners.PlayerInteractListener;
@@ -217,6 +218,9 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         }
         if (getConfig().getBoolean("Tweaks.WorldGuardFlagExtentions") && griefPrevention != null) {
             worldGuardFlagExtentions = new WorldGuardFlagExtentions(this);
+        }
+        if (getConfig().getBoolean("Tweaks.AllowWaterInNether")){
+            Bukkit.getPluginManager().registerEvents(new AllowWaterInNether(), this);
         }
     }
 
