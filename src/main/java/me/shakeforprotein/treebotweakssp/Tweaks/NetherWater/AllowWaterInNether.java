@@ -1,6 +1,5 @@
 package me.shakeforprotein.treebotweakssp.Tweaks.NetherWater;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
