@@ -6,13 +6,16 @@ import club.minnced.discord.webhook.WebhookClientBuilder;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import me.shakeforprotein.treeboroots.TreeboRoots;
 import me.shakeforprotein.treebotweakssp.Tweaks.ASTHandler.Listeners.AstHandler;
+import me.shakeforprotein.treebotweakssp.Tweaks.AutoBalancePvP.AutoBalancePvP;
 import me.shakeforprotein.treebotweakssp.Tweaks.BlockPvPNearOwnClaims.BlockPvPNearClaims;
 import me.shakeforprotein.treebotweakssp.Tweaks.BlockWithersNearClaims.BlockWither;
 import me.shakeforprotein.treebotweakssp.Tweaks.DoubleDoors.DoubleDoors;
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.CommandMakeMap;
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.InternalMapRenderer;
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.MapRenderListener;
+import me.shakeforprotein.treebotweakssp.Tweaks.MarkHomesOnDynMap.MarkHomesOnDynMap;
 import me.shakeforprotein.treebotweakssp.Tweaks.NerfMobDropsWhenNotKilledByPlayer.NerfDrops;
 import me.shakeforprotein.treebotweakssp.Tweaks.NetherWater.AllowWaterInNether;
 import me.shakeforprotein.treebotweakssp.Tweaks.PlayerKeepItemsIfKilledByPlayer.PlayerKeepItems;
@@ -30,17 +33,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dynmap.DynmapAPI;
+import org.dynmap.markers.MarkerAPI;
 
-import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public final class TreeboTweaksSP extends JavaPlugin implements Listener {
 
+    private TreeboRoots roots;
     public static List<Player> vehicleViewLockList = new ArrayList<>();
     public boolean isRenderingMap = false;
     public String badge;
@@ -49,11 +53,8 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
     public WorldGuard worldGuard;
     public WorldGuardPlugin worldGuardPlugin;
     public WorldGuardFlagExtentions worldGuardFlagExtentions;
-    private HashMap<String, String> loadedPlugins = new HashMap<>();
-    private String serverName;
     private WebhookClientBuilder builder;
     private WebhookClient webhookClient;
-    private boolean notifyStaff = false;
 
     public boolean isRenderingMap() {
         return isRenderingMap;
@@ -71,6 +72,7 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         this.mapToUse = mapToUse;
     }
 
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -78,6 +80,12 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         getConfig().options().copyDefaults(true);
         getConfig().set("version", this.getDescription().getVersion());
         saveConfig();
+
+        if(Bukkit.getPluginManager().getPlugin("TreeboRoots") != null && Bukkit.getPluginManager().getPlugin("TreeboRoots").isEnabled()){
+            roots = (TreeboRoots) Bukkit.getPluginManager().getPlugin("TreeboRoots");
+            roots.updateHandler.registerPlugin(this, "TreeboMC", "TreeboTweaksSP", Material.ANVIL);
+        }
+
         if(Bukkit.getPluginManager().getPlugin("GriefPrevention") != null && Bukkit.getPluginManager().getPlugin("GriefPrevention").isEnabled()) {
             this.griefPrevention = GriefPrevention.instance;
         } else {System.out.println(badge + " Error: Was unable to find plugin or it was disabled - GriefPrevention. Some features may not work as intended");}
@@ -87,61 +95,8 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         if (Bukkit.getPluginManager().getPlugin("WorldEdit") != null && Bukkit.getPluginManager().getPlugin("WorldEdit").isEnabled()) {
             this.worldGuardPlugin = WorldGuardPlugin.inst();
         }  else {System.out.println(badge + " Error: Was unable to find plugin or it was disabled - WorldEdit. Some features may not work as intended");}
-        if(getConfig().getString("General.ServerName") != null){
-            serverName = getConfig().getString("General.ServerName");
-        }
+
         badge = getConfig().getString("General.Messages.Badge") == null ? ChatColor.translateAlternateColorCodes('&', "&3&l[&2TreeboTweaksSP&3&l]&r") : ChatColor.translateAlternateColorCodes('&', getConfig().getString("General.Nessages.Badge"));
-
-
-        if (getConfig().getBoolean("Tweaks.AutoFillChangeLog")) {
-            if(getConfig().getLong("General.Discord.HookID") != 0 || getConfig().getLong("General.Discord.HookToken") != 0) {
-                Bukkit.getScheduler().runTaskLater(this, new Runnable() {
-                    @Override
-                    public void run() {
-                        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-                            String name = plugin.getName();
-                            String version = plugin.getDescription().getVersion();
-                            loadedPlugins.put(name, version);
-                        }
-
-
-                        if (getConfig().getConfigurationSection("plugins") == null) {
-                            getConfig().set("plugins.TreeboTweaksSP", "0.0.0");
-                        }
-                        if(getConfig().getString("serverVersion") == null){
-                            getConfig().set("serverVersion", "The Janky Old Server Build");
-                        }
-
-                        if(!Bukkit.getVersion().equalsIgnoreCase(getConfig().getString("serverVersion"))){
-                            sendDiscordMessage(":white_check_mark: Server Jar on " + serverName + " updated from " + getConfig().getString("serverVersion") + " to " + Bukkit.getVersion());
-                            getConfig().set("serverVersion", Bukkit.getVersion());
-                        }
-                        for (String plugin : getConfig().getConfigurationSection("plugins").getKeys(false)) {
-                            if (!loadedPlugins.containsKey(plugin)) {
-                                //If it's not loaded, it's been removed
-                                sendDiscordMessage("<:RX:482590343762673695>" + plugin + " has been removed from " + serverName);
-                                getConfig().set("plugins." + plugin, null);
-                            } else if (!getConfig().getString("plugins." + plugin).equals(loadedPlugins.get(plugin))) {
-                                sendDiscordMessage(":white_check_mark:" + plugin + " has been updated from version " + getConfig().getString("plugins." + plugin) + " to " + loadedPlugins.get(plugin) + " on " + serverName);
-                                getConfig().set("plugins." + plugin, loadedPlugins.get(plugin));
-                                loadedPlugins.remove(plugin);
-                            } else if (getConfig().getString("plugins." + plugin).equals(loadedPlugins.get(plugin))) {
-                                loadedPlugins.remove(plugin);
-                            }
-                        }
-
-                        for (String lPlugin : loadedPlugins.keySet()) {
-                            sendDiscordMessage(":ballot_box_with_check:" + lPlugin + " " + loadedPlugins.get(lPlugin) + " has been added to " + serverName);
-                            getConfig().set("plugins." + lPlugin, loadedPlugins.get(lPlugin));
-                        }
-                        saveConfig();
-                    }
-                }, 200L);
-            } else {
-                Bukkit.getPluginManager().registerEvents(this, this);
-                notifyStaff = true;
-            }
-        }
 
         if (getConfig().getBoolean("Tweaks.TimedPvpBlockBreak")) {
             Bukkit.getPluginManager().registerEvents(new LastPvpListener(this), this);
@@ -220,6 +175,19 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         if (getConfig().getBoolean("Tweaks.AllowWaterInNether")){
             Bukkit.getPluginManager().registerEvents(new AllowWaterInNether(), this);
         }
+        if (getConfig().getBoolean("Tweaks.AutoBalancePvP")){
+            Bukkit.getPluginManager().registerEvents(new AutoBalancePvP(this), this);
+        }
+        if (getConfig().getBoolean("Tweaks.MarkHomesOnDynMap") && Bukkit.getPluginManager().getPlugin("dynmap") != null){
+            Plugin dynmap;
+            if(Bukkit.getPluginManager().getPlugin("dynmap").isEnabled()) {
+                dynmap = Bukkit.getPluginManager().getPlugin("dynmap");
+                DynmapAPI dynmapAPI = (DynmapAPI) dynmap;
+                MarkerAPI markerAPI = dynmapAPI.getMarkerAPI();
+                MarkHomesOnDynMap markHomesOnDynMap = new MarkHomesOnDynMap(this, dynmapAPI, markerAPI);
+                markHomesOnDynMap.enable();
+            }
+        }
     }
 
     public void runCommandSynchronouslyLater(CommandSender sender, String command, long delay) {
@@ -252,20 +220,6 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
                     e.setCancelled(true);
                 }
             }
-        }
-    }
-
-    @EventHandler
-    public void onStaffJoin(PlayerJoinEvent e){
-        if(e.getPlayer().hasPermission("treebo.staff") && notifyStaff){
-            Bukkit.getScheduler().runTaskLater(this, new Runnable() {
-                @Override
-                public void run() {
-                    if(Bukkit.getOnlinePlayers().contains(e.getPlayer())) {
-                        e.getPlayer().sendMessage(badge + "Auto Update Changelog is enabled but the webhook is not configured. Please configure the webhook and restart the server.");
-                    }
-                }
-            }, 40L);
         }
     }
 

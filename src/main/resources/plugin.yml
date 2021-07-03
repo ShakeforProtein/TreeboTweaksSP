@@ -5,8 +5,8 @@ api-version: 1.13
 authors: [ShakeforProtein]
 description: Various tweaks for the Spigot side of Treebo Servers
 website: http://forums.treebomc.com
-depend: []
-softdepend: [dynmap, WorldEdit, GriefPrevention, WorldGuard]
+depend: [TreeboTeleport]
+softdepend: [dynmap, WorldEdit, GriefPrevention, WorldGuard, TreeboRoots]
 
 commands:
   vehicleview:

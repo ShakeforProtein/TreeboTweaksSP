@@ -8,18 +8,35 @@ General:
     HookToken: 0
 Tweaks:
   TimedPvpBlockBreak: false
+  Description_TimedPvpBlockBreak: When involved in pvp, any blocks placed break automatically in 30 seconds.
   TreeTwerking: false
+  Description_TreeTwerking: Crouch repeatedly to cause a bone-meal effect on saplings
   MurderCarts: false
+  Description_MurderCarts: Minecarts with players do fatal damage to entities on the tracks as they collide.
   VehicleViewLockToggle: false
+  Description_VehicleViewLock: Locks player view to the orientation of their vehicle
   EasyStoneInResourceWorld: false
+  Description_EasyStoneInResourceWorld: Makes stone in the resource world change to silverfish when interacted with, then blocks the silverfish spawn.
   DynmapToIngameMap: false
+  Description_DynMapToIngameMap: Converts map files from Dynmap to a set of in game maps at startup.
   BlockWitherSpawnsNearClaimedLand: false
+  Description_BlockWitherSpawnNearClaimedLand: Prevents withers being summoned within 10 chunks of a grief prevention claim.
   BlockPvPNearOwnClaim: false
+  Description_BlockPvPNearOwnClaim: Prevents pvp from/with members of a grief prevention claim within 8 chunks.
   NerfMobDropsWhenNotKilledByPlayer: false
+  Description_NerfMobDropsWhenNotKilledByPlayer: Mobs signigifcantly less likely to drop loot if not in combat with a player. (To discourage automatic grinders)
   PlayerKeepMostItemsIfKilledByPlayer: false
+  Description_PlayerKeepMostItemsIfKilledByPlayer: Prevents most of a players items being dropped when they die in pvp.
   AutoFillChangeLog: true
-  DoubleDoors: false
+  Description_AutoFillChangeLog: Automatically updates the Changelog on discord when a plugin or server version is changed.
+  DoubleDoors: true
+  Description_DoubleDoors: Makes adjacent doors with the correct orientation function as a single door.
   AllowWaterInNether: false
+  Description_AllowWaterInNether: Allows Ice to melt into water in the nether if the block beneath the Ice is Blue Ice.
+  AutoBalancePvP: true
+  Description_AutoBalancePvP: Applies Buff/Debuff to PvP based on win loss ratio between combatants.
+  MarkHomesOnDynMap: false
+  Description_MarkHomesOnDynMap: Loads homes data from TreeboTeleport and makes markers available to DynMap
 
 DynmapToInGameMapDetails:
   World: 'Survival'
