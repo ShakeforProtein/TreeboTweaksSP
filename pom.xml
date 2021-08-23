@@ -6,7 +6,7 @@
 
     <groupId>me.ShakeforProtein</groupId>
     <artifactId>TreeboTweaksSP</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.8</version>
     <packaging>jar</packaging>
 
     <name>TreeboTweaksSP</name>

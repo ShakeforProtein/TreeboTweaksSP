@@ -7,7 +7,10 @@ import org.bukkit.block.data.type.Sapling;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockGrowEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.world.StructureGrowEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +50,54 @@ public class TwerkingListener implements Listener {
                 for (int y = -2; y < 2; y++) {
                     for (int z = -5; z < 5; z++) {
                         Block block = new Location(loc.getWorld(), loc.getBlockX() + x + 0.5, loc.getY() + y + 0.5, loc.getZ() + z + 0.5).getBlock();
+                        /* */
+
+                        if(block.getState().getBlockData() instanceof Sapling){
+                            Sapling sapling = (Sapling) block.getState().getBlockData();
+                            Material saplingType = block.getType();
+                            if(sapling.getStage() < sapling.getMaximumStage() && ThreadLocalRandom.current().nextInt(100) < 10){
+                                sapling.setStage(sapling.getStage() +1);
+                                block.getLocation().getWorld().spawnParticle(Particle.REDSTONE, block.getLocation().add(block.getX() + 0.5,block.getY() + 0.8,block.getZ() + 0.5), 3, new Particle.DustOptions(Color.GREEN, 3f));
+                                block.setBlockData(sapling);
+                            } else if(sapling.getStage() == sapling.getMaximumStage()){
+
+                                block.getLocation().getWorld().spawnParticle(Particle.REDSTONE, block.getLocation().add(block.getX() + 0.5,block.getY() + 0.8,block.getZ() + 0.5), 3, new Particle.DustOptions(Color.ORANGE, 5f));
+                            } else {
+
+                                block.getLocation().getWorld().spawnParticle(Particle.REDSTONE, block.getLocation().add(block.getX() + 0.5,block.getY() + 0.8,block.getZ() + 0.5), 3, new Particle.DustOptions(Color.WHITE, 1f));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+                        /*
                         for (Material mat : saplings) {
                             if (!block.getType().isAir() && block.getType() != Material.VOID_AIR && block.getType() == mat) {
                                 if (Math.floor(ThreadLocalRandom.current().nextInt(5)) == 4) {
                                     Sapling sapling = (Sapling) block.getBlockData();
-                                    if (sapling.getStage() <= sapling.getMaximumStage()) {
+
+                                    if (sapling.getStage() <= sapling.getMaximumStage() ) {
                                         if (ThreadLocalRandom.current().nextInt(20) > 15) {
                                             sapling.setStage(sapling.getMaximumStage());
                                             block.setBlockData(sapling);
                                             block.getState().update();
                                             makeTree(block);
-                                            new BlockGrowEvent(block, block.getState());
+                                            BlockGrowEvent blockGrowEvent = new BlockGrowEvent(block, block.getState());
+
+                                            if(block.getType() == Material.AIR){
+                                                block.setType(mat);
+                                                for(double a = -0.5; a < 0.5; a = a + 0.1){
+                                                    for(double b = 0.1; b < 0.5; b = b + 0.1){
+                                                        for(double c = -0.5; c < 0.5; c = c + 0.1){
+                                                            block.getLocation().getWorld().spawnParticle(Particle.REDSTONE, block.getLocation().add(a + 0.5,b + 0.8,c + 0.5), 3, new Particle.DustOptions(Color.RED, 5.5f));
+                                                            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(mat, 1));
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
 
@@ -128,7 +168,6 @@ public class TwerkingListener implements Listener {
                             new Location(l.getWorld(), l.getBlockX()+1, l.getBlockY(), l.getBlockZ()).getBlock().setType(Material.AIR);
                             new Location(l.getWorld(), l.getBlockX()+1, l.getBlockY(), l.getBlockZ()+1).getBlock().setType(Material.AIR);
                             new Location(l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ()+1).getBlock().setType(Material.AIR);
-
                             break;
                         case "SOUTHWEST":
                             l.getBlock().setType(Material.AIR);
@@ -161,7 +200,7 @@ public class TwerkingListener implements Listener {
                         @Override
                         public void run() {                                
                             if(l.getBlock().getType() == Material.AIR) {
-                            switch (direction) {
+                              switch (direction) {
 
                                     case "SOUTHEAST":
                                         l.getBlock().setType(saplingType);
@@ -196,9 +235,12 @@ public class TwerkingListener implements Listener {
 
                                         break;
                                 }
+
                             }
                         }
                     }, 1L);
+
+
                     grew = true;
                 }
             }
@@ -224,6 +266,8 @@ public class TwerkingListener implements Listener {
             }
         }
 
+
     }
 
+   */
 }

@@ -37,6 +37,8 @@ Tweaks:
   Description_AutoBalancePvP: Applies Buff/Debuff to PvP based on win loss ratio between combatants.
   MarkHomesOnDynMap: false
   Description_MarkHomesOnDynMap: Loads homes data from TreeboTeleport and makes markers available to DynMap
+  MaintainFlightBetweenWorlds: true
+  Description_MaintainFlightBetweenWorlds: Ensures flight status is toggled on during world change if it was toggled on prior to world change.
 
 DynmapToInGameMapDetails:
   World: 'Survival'

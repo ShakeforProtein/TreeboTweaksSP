@@ -15,6 +15,7 @@ import me.shakeforprotein.treebotweakssp.Tweaks.DoubleDoors.DoubleDoors;
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.CommandMakeMap;
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.InternalMapRenderer;
 import me.shakeforprotein.treebotweakssp.Tweaks.DynMapToInGameMap.MapRenderListener;
+import me.shakeforprotein.treebotweakssp.Tweaks.MaintainFlightBetweenWorlds.MaintainFlightBetweenWorlds;
 import me.shakeforprotein.treebotweakssp.Tweaks.MarkHomesOnDynMap.MarkHomesOnDynMap;
 import me.shakeforprotein.treebotweakssp.Tweaks.NerfMobDropsWhenNotKilledByPlayer.NerfDrops;
 import me.shakeforprotein.treebotweakssp.Tweaks.NetherWater.AllowWaterInNether;
@@ -187,6 +188,9 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
                 MarkHomesOnDynMap markHomesOnDynMap = new MarkHomesOnDynMap(this, dynmapAPI, markerAPI);
                 markHomesOnDynMap.enable();
             }
+        }
+        if(getConfig().getBoolean("Tweaks.MaintainFlightBetweenWorlds")){
+            Bukkit.getPluginManager().registerEvents(new MaintainFlightBetweenWorlds(this), this);
         }
     }
 
