@@ -9,6 +9,7 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import me.shakeforprotein.treeboroots.TreeboRoots;
 import me.shakeforprotein.treebotweakssp.Tweaks.ASTHandler.Listeners.AstHandler;
 import me.shakeforprotein.treebotweakssp.Tweaks.AutoBalancePvP.AutoBalancePvP;
+import me.shakeforprotein.treebotweakssp.Tweaks.BlockPortalsInWorldGuardRegions.BlockPortalsInWorldGuardRegions;
 import me.shakeforprotein.treebotweakssp.Tweaks.BlockPvPNearOwnClaims.BlockPvPNearClaims;
 import me.shakeforprotein.treebotweakssp.Tweaks.BlockWithersNearClaims.BlockWither;
 import me.shakeforprotein.treebotweakssp.Tweaks.DoubleDoors.DoubleDoors;
@@ -191,6 +192,9 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         }
         if(getConfig().getBoolean("Tweaks.MaintainFlightBetweenWorlds")){
             Bukkit.getPluginManager().registerEvents(new MaintainFlightBetweenWorlds(this), this);
+        }
+        if(getConfig().getBoolean("Tweaks.BlockPortalsInWorldGuardRegions")){
+            Bukkit.getPluginManager().registerEvents(new BlockPortalsInWorldGuardRegions(this), this);
         }
     }
 

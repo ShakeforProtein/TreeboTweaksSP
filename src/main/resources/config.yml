@@ -39,9 +39,14 @@ Tweaks:
   Description_MarkHomesOnDynMap: Loads homes data from TreeboTeleport and makes markers available to DynMap
   MaintainFlightBetweenWorlds: true
   Description_MaintainFlightBetweenWorlds: Ensures flight status is toggled on during world change if it was toggled on prior to world change.
+  BlockPortalsInWorldGuardRegions: true
+  Description_BlockPortalsInWorldGuardRegions: Block portals from being created in a world guard protected region, both manually and as a result of using a portal in another dimension.
 
 DynmapToInGameMapDetails:
   World: 'Survival'
   StartFromX: -16
   StartFromY: -16
   Dimensions: 4096
+
+AllowedPortalRegions:
+  - Anything-In-This-List-Will-Allow-Portals-Even-If-Overlapping-A-Region-They-Would-Be-Denied-In
