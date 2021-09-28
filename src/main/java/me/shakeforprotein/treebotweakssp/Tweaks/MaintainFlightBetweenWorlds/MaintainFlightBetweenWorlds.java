@@ -34,8 +34,10 @@ public class MaintainFlightBetweenWorlds implements Listener {
     public void maintainFlight(PlayerChangedWorldEvent e){
         if(flyingPlayers.containsKey(e.getPlayer()) && e.getPlayer().hasPermission("essentials.fly")){
             Bukkit.getScheduler().runTaskLater(pl, ()->{
-                e.getPlayer().setAllowFlight(true);
-                e.getPlayer().setFlying(true);
+                if(!e.getPlayer().getWorld().getName().toLowerCase().contains("resource")) {
+                    e.getPlayer().setAllowFlight(true);
+                    e.getPlayer().setFlying(true);
+                }
             }, 2L);
         }
     }

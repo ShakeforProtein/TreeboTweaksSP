@@ -41,6 +41,7 @@ Tweaks:
   Description_MaintainFlightBetweenWorlds: Ensures flight status is toggled on during world change if it was toggled on prior to world change.
   BlockPortalsInWorldGuardRegions: true
   Description_BlockPortalsInWorldGuardRegions: Block portals from being created in a world guard protected region, both manually and as a result of using a portal in another dimension.
+  SleepAtCampfire: true
 
 DynmapToInGameMapDetails:
   World: 'Survival'

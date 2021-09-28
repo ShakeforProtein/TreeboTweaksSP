@@ -21,9 +21,11 @@ import me.shakeforprotein.treebotweakssp.Tweaks.MarkHomesOnDynMap.MarkHomesOnDyn
 import me.shakeforprotein.treebotweakssp.Tweaks.NerfMobDropsWhenNotKilledByPlayer.NerfDrops;
 import me.shakeforprotein.treebotweakssp.Tweaks.NetherWater.AllowWaterInNether;
 import me.shakeforprotein.treebotweakssp.Tweaks.PlayerKeepItemsIfKilledByPlayer.PlayerKeepItems;
+import me.shakeforprotein.treebotweakssp.Tweaks.SleepAtCampfire.SleepAtCampfire;
 import me.shakeforprotein.treebotweakssp.Tweaks.StoneToMonsterStone.Listeners.CreatureSpawnListener;
 import me.shakeforprotein.treebotweakssp.Tweaks.StoneToMonsterStone.Listeners.PlayerInteractListener;
 import me.shakeforprotein.treebotweakssp.Tweaks.TimedPvpBlockBreak.Listeners.LastPvpListener;
+import me.shakeforprotein.treebotweakssp.Tweaks.TimescaleModifier.TimescaleModifier;
 import me.shakeforprotein.treebotweakssp.Tweaks.TreeTwerking.Listeners.TwerkingListener;
 import me.shakeforprotein.treebotweakssp.Tweaks.WorldGuardFlags.WorldGuardFlagExtentions;
 import org.bukkit.Bukkit;
@@ -196,6 +198,10 @@ public final class TreeboTweaksSP extends JavaPlugin implements Listener {
         if(getConfig().getBoolean("Tweaks.BlockPortalsInWorldGuardRegions")){
             Bukkit.getPluginManager().registerEvents(new BlockPortalsInWorldGuardRegions(this), this);
         }
+        if(getConfig().getBoolean("Tweaks.SleepAtCampfire")){
+            //Bukkit.getPluginManager().registerEvents(new SleepAtCampfire(this),this);
+        }
+        Bukkit.getPluginManager().registerEvents(new TimescaleModifier(this), this);
     }
 
     public void runCommandSynchronouslyLater(CommandSender sender, String command, long delay) {
